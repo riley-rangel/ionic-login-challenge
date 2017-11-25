@@ -30,4 +30,13 @@ export class HomePage {
       .catch(err => console.log('Error logging into Facebook', err));
   }
 
+  logoutFacebook() {
+    this.fb.logout()
+      .then(() => {
+        this.user.name = ''
+        this.user.image = ''
+      })
+      .catch(err => console.error(err))
+  }
+
 }
