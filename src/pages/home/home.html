@@ -7,5 +7,9 @@
 </ion-header>
 
 <ion-content padding>
-  <button ion-button full (click)="loginFacebook()">Login with Facebook</button>
+  <button ion-button *ngIf="!user.name" (click)="loginFacebook()">Login with Facebook</button>
+  <div id="user" *ngIf="user.name">
+    <img [src]="user.image" id="userImg" />
+    <span id="userName">Welcome, {{ user.name }}</span>
+  </div>
 </ion-content>
