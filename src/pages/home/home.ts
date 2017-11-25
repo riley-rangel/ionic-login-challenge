@@ -13,11 +13,16 @@ export class HomePage {
   }
 
   loginFacebook() {
-    this.fb.login(['public_profile', 'user_friends', 'email'])
+    this.fb.login([ 'public_profile', 'email' ])
       .then((res: FacebookLoginResponse) => {
-        console.log('Logged into Facebook!', res)
+        console.log(res)
+        this.fb.api('/me?fields=id,name,picture', [ 'public_profile' ])
+          .then(res => {
+            const { name, picture: { data: { url } } } = res
+            console.log(name, url)
+          })
       })
-      .catch(e => console.log('Error logging into Facebook', e));
+      .catch(err => console.log('Error logging into Facebook', err));
   }
 
 }
