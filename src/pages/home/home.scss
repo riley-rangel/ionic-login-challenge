@@ -1,3 +1,18 @@
 page-home {
+  #user {
+    margin: 0 auto;
+  }
 
+  #userImg {
+    float: left;
+    height: 5rem;
+    width: 5rem;
+    border-radius: 100%;
+  }
+
+  #userName {
+    margin: 0 1rem;
+    line-height: 5rem;
+    float: left;
+  }
 }
