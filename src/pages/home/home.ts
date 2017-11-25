@@ -32,13 +32,15 @@ export class HomePage {
     }
   }
 
-  logoutFacebook() {
-    this.fb.logout()
-      .then(() => {
-        this.user.name = ''
-        this.user.image = ''
-      })
-      .catch(err => console.error(err))
+  async logoutFacebook() {
+    try {
+      await this.fb.logout()
+      this.user.name = ''
+      this.user.image = ''
+    }
+    catch(err) {
+      console.error(err)
+    }
   }
 
 }
