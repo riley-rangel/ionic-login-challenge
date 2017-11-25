@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { Facebook } from '@ionic-native/facebook';
 
 @Component({
   selector: 'page-home',
@@ -17,26 +17,30 @@ export class HomePage {
 
   }
 
-  loginFacebook() {
-    this.fb.login([ 'public_profile' ])
-      .then((res: FacebookLoginResponse) => {
-        this.fb.api('/me?fields=name,picture', [ 'public_profile' ])
-          .then(res => {
-            const { name, picture: { data: { url } } } = res
-            this.user.name = name
-            this.user.image = url
-          })
-      })
-      .catch(err => console.log('Error logging into Facebook', err));
+  async loginFacebook() {
+    try {
+      const connected = await this.fb.getLoginStatus()
+      if (connected.status === 'connected') await this.fb.logout()
+      await this.fb.login([ 'public_profile' ])
+      const res = await this.fb.api('/me?fields=name,picture', [ 'public_profile' ])
+      const { name, picture: { data: { url } } } = res
+      this.user.name = name
+      this.user.image = url
+    }
+    catch(err) {
+      console.error(err)
+    }
   }
 
-  logoutFacebook() {
-    this.fb.logout()
-      .then(() => {
-        this.user.name = ''
-        this.user.image = ''
-      })
-      .catch(err => console.error(err))
+  async logoutFacebook() {
+    try {
+      await this.fb.logout()
+      this.user.name = ''
+      this.user.image = ''
+    }
+    catch(err) {
+      console.error(err)
+    }
   }
 
 }
